@@ -1,0 +1,23 @@
+{
+  "name": {
+    "message": "Altercom Messenger Extension"
+  },
+  "description": {
+    "message": "Google Chrome extension informs users about new messages."
+  },
+  "title": {
+    "message": "Altercom: Messenger Service."
+  },
+  "titleNewMsg": {
+    "message": "New messages"
+  },
+  "from": {
+    "message": "from"
+  },
+  "openButtonTitle": {
+    "message": "Open messages"
+  },
+  "closeButtonTitle": {
+    "message": "Close"
+  }
+}

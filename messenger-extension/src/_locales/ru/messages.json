@@ -1,0 +1,23 @@
+{
+  "name": {
+    "message": "Альтерком. Обмен сообщениями."
+  },
+  "description": {
+    "message": "Расширение Google Chrome для автоинформирования о получени новых сообщения."
+  },
+  "title": {
+    "message": "Альтерком: Обмен сообщениями."
+  },
+  "titleNewMsg": {
+    "message": "Новые сообщения"
+  },
+  "from": {
+    "message": "от"
+  },
+  "openButtonTitle": {
+    "message": "Показать сообщения"
+  },
+  "closeButtonTitle": {
+    "message": "Закрыть"
+  }
+}

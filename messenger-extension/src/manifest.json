@@ -1,0 +1,47 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_name__",
+  "version": "1.0.2.0",
+
+  "default_locale": "ru",
+  "description": "__MSG_description__",
+  "icons": {
+    "16":  "icons/icon16.png",
+    "19":  "icons/icon19.png",
+    "32":  "icons/icon32.png",
+    "48":  "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "browser_action": {
+    "default_icon": {
+      "16":  "icons/icon16.png",
+      "19":  "icons/icon19.png",
+      "32":  "icons/icon32.png"
+    },
+    "default_title": "__MSG_title__",
+    "default_popup": "popup/popup.html"
+  },
+
+  "background": {
+    "persistent": true,
+    "scripts": [
+      "/scripts/socket.io.js",
+      "background.js"
+    ]
+  },
+
+  "permissions": [
+    "http://localhost/*",
+    "http://Альтерком.РФ/*",
+    "background",
+    "notifications",
+    "storage",
+    "tabs"
+  ],
+
+  "options_ui": {
+    "page": "options/options.html",
+    "chrome_style": true
+  }
+}

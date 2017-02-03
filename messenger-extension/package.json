@@ -1,0 +1,9 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "dependencies": {
+    "@types/chrome": "0.0.38",
+    "@types/socket.io-client": "^1.4.29",
+    "socket.io-client": "^1.7.2"
+  }
+}
