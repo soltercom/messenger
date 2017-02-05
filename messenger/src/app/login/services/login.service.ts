@@ -38,6 +38,7 @@ export class LoginService {
 
   private savePIN(pin: string) {
     window.localStorage.setItem('pin', pin);
+    window.postMessage({'pin': pin}, "*");
   }
 
   loadPIN(): string {

@@ -1,9 +1,32 @@
-//let SOCKET_PATH = 'http://localhost:3000';
-//let PATH        = 'http://localhost:3000';
-let SOCKET_PATH = 'http://Альтерком.РФ:3000';
-let PATH = 'http://Альтерком.РФ:3000';
+let SOCKET_PATH = 'http://localhost:3000';
+let PATH        = 'http://localhost:3000';
+//let SOCKET_PATH = 'http://Альтерком.РФ:3000';
+//let PATH = 'http://Альтерком.РФ:3000';
 
 let socket = io(SOCKET_PATH);
+
+function createNotification(items: {title: string, message: string}[]) {
+  let titleNewMsg      = chrome.i18n.getMessage('titleNewMsg');
+  let openButtonTitle  = chrome.i18n.getMessage('openButtonTitle');
+  let closeButtonTitle = chrome.i18n.getMessage('closeButtonTitle');
+  let notificationId = "new message";
+
+  chrome.notifications.create(notificationId, {
+    type: 'list',
+    iconUrl: 'icons/icon48.png',
+    title: titleNewMsg,
+    message: '',
+    items: items,
+    buttons: [
+      {
+        title: openButtonTitle,
+        iconUrl: 'icons/open_in_browser.png'
+      }
+    ],
+    isClickable: true,
+    requireInteraction: true
+  });
+}
 
 function highlightWindow(windowId: number) {
   chrome.windows.update(windowId, { drawAttention: true });
@@ -40,35 +63,28 @@ function createWindow(notificationId: string) {
   });
 }
 
-chrome.storage.sync.get('pin', (item: {pin: string}) => {
-  if (item && item.pin) socket.emit('ext online', { pin: item.pin });
+function connect() {
+  chrome.storage.sync.get('pin', (item: {pin: string}) => {
+    if (item && item.pin) socket.emit('ext online', {pin: item.pin});
+  });
+}
+
+socket.on('disconnect', ()=> {
+  console.log('I am disconnected.')
+});
+
+socket.on('connect', () => {
+  connect();
 });
 
 socket.on('ext message', (data: any) => {
-  console.log(data);
-  let titleNewMsg      = chrome.i18n.getMessage('titleNewMsg');
-  let from             = chrome.i18n.getMessage('from');
-  let openButtonTitle  = chrome.i18n.getMessage('openButtonTitle');
-  let closeButtonTitle = chrome.i18n.getMessage('closeButtonTitle');
+  let from = chrome.i18n.getMessage('from');
   let items = data.map(message => {
     return {
       title: `${from} ${message.addressee}`,
       message: `${message.text.substr(0, 20)}${message.text.length > 20?"...":""}`
     }});
-  chrome.notifications.create('new message', {
-    type: 'list',
-    iconUrl: 'icons/icon48.png',
-    title: titleNewMsg,
-    message: '',
-    items: items,
-    buttons: [
-      {
-        title: openButtonTitle,
-        iconUrl: 'icons/open_in_browser.png'
-      }
-    ],
-    requireInteraction: true
-  });
+  createNotification(items);
 });
 
 chrome.notifications.onButtonClicked
@@ -88,4 +104,12 @@ chrome.notifications.onButtonClicked
         }
       });
     }
+  });
+
+chrome.runtime.onMessage
+  .addListener((data: {pin: string}) => {
+    if (data.pin)
+      chrome.storage.sync.set({pin: data.pin}, () => {
+        console.log('pin saved');
+      });
   });

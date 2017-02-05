@@ -1,5 +1,5 @@
-//let PATH2 = 'http://localhost:3000';
-let PATH2 = 'http://Альтерком.РФ:3000';
+let PATH2 = 'http://localhost:3000';
+//let PATH2 = 'http://Альтерком.РФ:3000';
 
 function openExt() {
 	chrome.tabs.query({ url: `${PATH2}/*` }, (tabs: chrome.tabs.Tab[]) => {
