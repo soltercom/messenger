@@ -1,7 +1,7 @@
-let SOCKET_PATH = 'http://localhost:3000';
-let PATH        = 'http://localhost:3000';
-//let SOCKET_PATH = 'http://Альтерком.РФ:3000';
-//let PATH = 'http://Альтерком.РФ:3000';
+const SOCKET_PATH = 'http://localhost:3000';
+const PATH        = 'http://localhost:3000';
+//const SOCKET_PATH = 'http://Альтерком.РФ:3000';
+//const let PATH = 'http://Альтерком.РФ:3000';
 
 let socket = io(SOCKET_PATH);
 
