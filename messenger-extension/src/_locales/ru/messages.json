@@ -19,5 +19,8 @@
   },
   "closeButtonTitle": {
     "message": "Закрыть"
+  },
+  "ttsNewMessages": {
+    "message": "Альтерком: Новые сообщения!"
   }
 }

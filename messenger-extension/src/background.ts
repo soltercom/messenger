@@ -9,6 +9,7 @@ function createNotification(items: {title: string, message: string}[]) {
   let titleNewMsg      = chrome.i18n.getMessage('titleNewMsg');
   let openButtonTitle  = chrome.i18n.getMessage('openButtonTitle');
   let closeButtonTitle = chrome.i18n.getMessage('closeButtonTitle');
+  let ttsNewMessages   = chrome.i18n.getMessage('ttsNewMessages');
   let notificationId = "new message";
 
   chrome.notifications.create(notificationId, {
@@ -25,6 +26,11 @@ function createNotification(items: {title: string, message: string}[]) {
     ],
     isClickable: true,
     requireInteraction: true
+  }, (id: string) => {
+    chrome.tts.speak(ttsNewMessages, { lang: 'ru' }, () => {
+      if (chrome.runtime.lastError) {
+        console.log('TTS Error: ' + chrome.runtime.lastError.message);
+      }});
   });
 }
 

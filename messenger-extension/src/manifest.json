@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_name__",
-  "version": "1.0.3.0",
+  "version": "1.0.4.0",
 
   "default_locale": "ru",
   "description": "__MSG_description__",
@@ -42,7 +42,8 @@
     "background",
     "notifications",
     "storage",
-    "tabs"
+    "tabs",
+    "tts"
   ],
 
   "options_ui": {
