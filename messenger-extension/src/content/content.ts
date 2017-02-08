@@ -3,8 +3,10 @@ window.addEventListener("message", (event) => {
 	if (event.source != window)
 		return;
 
-	if (event.data.pin) {
-		//console.log("Content script received: " + event.data.pin);
+	if (event.data.pin)
 		chrome.runtime.sendMessage(event.data);
-	}
+
+	if (event.data.totalNewMessages !== undefined)
+		chrome.runtime.sendMessage(event.data);
+
 }, false);

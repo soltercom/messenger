@@ -22,5 +22,9 @@
   },
   "ttsNewMessages": {
     "message": "Альтерком: Новые сообщения!"
+  },
+  "ttsNewMessagesRepeat" : {
+    "message": "Не забудьте прочитать новые сообщения!"
   }
+
 }

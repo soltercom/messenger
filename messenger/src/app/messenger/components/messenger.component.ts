@@ -150,6 +150,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
 	sumNewMessages() {
 		this._totalNewMessages = this._messages
 			.filter(msg => msg.new && msg.isIncome(this.loginService.user)).length;
+		window.postMessage({'totalNewMessages': this.totalNewMessages}, "*");
 	}
 
 }
