@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_name__",
-  "version": "1.0.3.0",
+  "version": "1.0.4.0",
 
   "default_locale": "ru",
   "description": "__MSG_description__",
@@ -32,17 +32,19 @@
   },
 
   "content_scripts": [ {
-    "matches": ["http://localhost/*", "http://Альтерком.РФ/*"],
+    "matches": ["http://localhost/*", "http://альтерком.рф/*"],
     "js": ["/content/content.js"]
   }],
 
   "permissions": [
     "http://localhost/*",
-    "http://Альтерком.РФ/*",
+    "http://альтерком.рф/*",
     "background",
     "notifications",
     "storage",
-    "tabs"
+    "tabs",
+    "tts",
+    "alarms"
   ],
 
   "options_ui": {

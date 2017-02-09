@@ -19,5 +19,11 @@
   },
   "closeButtonTitle": {
     "message": "Close"
+  },
+  "ttsNewMessages": {
+    "message": "Altercom: New messages!"
+  },
+  "ttsNewMessagesRepeat" : {
+    "message": "Please read new messages"
   }
 }

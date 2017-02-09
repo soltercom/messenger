@@ -68,6 +68,8 @@ export class SocketServer {
 							console.log('Error in new income messages query.', error);
 							return;
 						}
+						if (result.length === 0)
+							return;
 						socket.emit('ext message', result.map((msg: any) => {
 							return {
 								addressee: msg.contact.personFrom.desc,

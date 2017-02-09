@@ -6,11 +6,12 @@ import { FormGroup, FormControl } from '@angular/forms';
 @Component({
 	template: `
 		<md-card style="margin: -24px;">
-			<md-card-title style="opacity: 0.87;">{{contact.personTo}}</md-card-title>
+			<md-card-title style="opacity: 0.87; font-size: 20px">{{contact.personTo}}</md-card-title>
 			<md-card-content>
 				<md-input-container [formGroup]="form"
-				                    style="width: 100%; font-size: 20px; line-height: 1.5em;">
-      		<textarea md-input rows="7" cols="30"
+				                    style="width: 100%; font-size: 18px; line-height: 120%; 
+				                    font-family:'Roboto',sans-serif;">
+      		<textarea md-input rows="7" cols="60"
       		          placeholder="Текст нового сообщения"
       		          formControlName="text"></textarea>
     		</md-input-container>
