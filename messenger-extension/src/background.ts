@@ -1,14 +1,22 @@
 //const SOCKET_PATH = 'http://localhost:3000';
 //const PATH        = 'http://localhost:3000';
+
 const SOCKET_PATH = 'http://альтерком.рф:3000';
 const PATH = 'http://xn--80akpchlmo3g.xn--p1ai:3000';
 
 let socket = io(SOCKET_PATH);
 
 let i18Msg = chrome.i18n.getMessage;
-let repeatNotifications: boolean = false;
 let alarmId: string = "repeatNotifications";
-let alarmPeriod: number = 5.0;
+let alarmPeriod: number = 0.25;
+
+function createRepeatNotificationAlarm() {
+  chrome.alarms.clear(alarmId, (wasCleared: boolean) => {
+    chrome.alarms.create(alarmId, {
+      delayInMinutes: alarmPeriod
+    });
+  });
+}
 
 function createNotification(data: any) {
 
@@ -32,12 +40,7 @@ function createNotification(data: any) {
       }
     ],
   }, (id: string) => {
-    repeatNotifications = true;
-    chrome.alarms.clear(alarmId, (wasCleared: boolean) => {
-      chrome.alarms.create(alarmId, {
-        periodInMinutes: alarmPeriod
-      });
-    });
+    createRepeatNotificationAlarm();
     chrome.tts.speak(i18Msg('ttsNewMessages'), { lang: 'ru' }, () => {
       if (chrome.runtime.lastError) {
         console.log('TTS Error: ' + chrome.runtime.lastError.message);
@@ -110,46 +113,45 @@ function disconnect() {
 }
 
 function onWindowMessage(data: any) {
-  console.log('Window message: ', data);
   if (data.pin)
     chrome.storage.sync.set({pin: data.pin}, () => {
       console.log('pin saved');
     });
-  if (data.totalNewMessages !== undefined && data.totalNewMessages === 0) {
-    repeatNotifications = false;
-    chrome.alarms.clear(alarmId);
-  }
 }
 
 function onAlarm(alarm: chrome.alarms.Alarm) {
   if (alarm.name === alarmId) {
-    if (repeatNotifications) {
-      chrome.notifications.create("new messages", {
-        type:    'basic',
-        iconUrl: 'icons/icon48.png',
-        title:   i18Msg('titleNewMsg'),
-        message: i18Msg('ttsNewMessagesRepeat'),
-        buttons: [
-          {
-            title: i18Msg('openButtonTitle'),
-            iconUrl: 'icons/open_in_browser.png'
-          }
-        ],
-      }, (id: string) => {
-        chrome.tts.speak(i18Msg('ttsNewMessagesRepeat'), { lang: 'ru' }, () => {
-          if (chrome.runtime.lastError) {
-            console.log('TTS Error: ' + chrome.runtime.lastError.message);
-          }});
-      });
-    } else {
-      chrome.alarms.clear(alarmId);
-    }
+    chrome.storage.sync.get('pin', (item: {pin: string}) => {
+      if (item && item.pin) socket.emit('ext has new messages', {pin: item.pin});
+    });
   }
+}
+
+function createNotificationNewMessages() {
+  chrome.notifications.create("new messages", {
+    type:    'basic',
+    iconUrl: 'icons/icon48.png',
+    title:   i18Msg('titleNewMsg'),
+    message: i18Msg('ttsNewMessagesRepeat'),
+    buttons: [
+      {
+        title: i18Msg('openButtonTitle'),
+        iconUrl: 'icons/open_in_browser.png'
+      }
+    ],
+  }, (id: string) => {
+    createRepeatNotificationAlarm();
+    chrome.tts.speak(i18Msg('ttsNewMessagesRepeat'), { lang: 'ru' }, () => {
+      if (chrome.runtime.lastError) {
+        console.log('TTS Error: ' + chrome.runtime.lastError.message);
+      }});
+  });
 }
 
 socket.on('connect', connect);
 socket.on('disconnect', disconnect);
 socket.on('ext message', createNotification);
+socket.on('ext has new messages', createNotificationNewMessages);
 
 chrome.notifications.onButtonClicked.addListener(activateTab);
 chrome.runtime.onMessage.addListener(onWindowMessage);

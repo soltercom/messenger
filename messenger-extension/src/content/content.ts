@@ -6,7 +6,4 @@ window.addEventListener("message", (event) => {
 	if (event.data.pin)
 		chrome.runtime.sendMessage(event.data);
 
-	if (event.data.totalNewMessages !== undefined)
-		chrome.runtime.sendMessage(event.data);
-
 }, false);

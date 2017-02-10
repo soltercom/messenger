@@ -21,9 +21,9 @@
     "message": "Close"
   },
   "ttsNewMessages": {
-    "message": "Altercom: New messages!"
+    "message": "New messages!"
   },
   "ttsNewMessagesRepeat" : {
-    "message": "Please read new messages"
+    "message": "Please read new messages!"
   }
 }

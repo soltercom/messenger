@@ -21,7 +21,7 @@
     "message": "Закрыть"
   },
   "ttsNewMessages": {
-    "message": "Альтерком: Новые сообщения!"
+    "message": "У вас новые сообщения!"
   },
   "ttsNewMessagesRepeat" : {
     "message": "Не забудьте прочитать новые сообщения!"
