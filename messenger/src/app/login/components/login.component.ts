@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { LoginService } from '../services';
 
@@ -24,25 +24,6 @@ import { LoginService } from '../services';
 				        (click)="onCancel()">Отмена</button>
       </md-card-actions>
     </md-card>
-    <!--<div class="panel panel-info">
-      <div class="panel-heading">Введите PIN-код</div>
-      <div class="panel-body">
-        <div [formGroup]="detailForm">
-          <div class="form-group">
-            <label>PIN-код</label>
-            <input class="form-control" 
-                   type="text" 
-						       formControlName="pin">
-          </div>
-        </div>
-      </div>
-      <div class="panel-footer">
-				<button class="btn btn-primary"
-				        (click)="onOK()">ОК</button>
-				<button class="btn btn-default" 
-				        (click)="onCancel()">Отмена</button>
-			</div>
-    </div>-->
   `
 })
 export class LoginComponent implements OnInit {
@@ -50,13 +31,18 @@ export class LoginComponent implements OnInit {
   private detailForm: FormGroup;
 
   constructor(private loginService: LoginService,
-              private router: Router) {}
+              private router: Router,
+              private activatedRouter: ActivatedRoute) {
+  }
 
   ngOnInit() {
     let pin = this.loginService.loadPIN() || '';
     this.detailForm = new FormGroup({
       pin: new FormControl(pin)
     });
+    if (pin && !this.activatedRouter.snapshot.queryParams['logout']) {
+      this.onOK();
+    }
   }
 
   onOK() {

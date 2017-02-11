@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { MenuItem } from '../../shared';
 import { LoginService } from '../../login';
+import { EXT_WEBSTORE_URL } from '../../shared';
 
 @Component({
   selector: 'alt-navbar',
@@ -53,7 +54,7 @@ export class NavbarComponent {
 
   logout() {
     this.loginService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login'], { queryParams: { logout: true }});
   }
 
   home() {
@@ -61,7 +62,7 @@ export class NavbarComponent {
   }
 
   openWebstore() {
-    window.open("https://chrome.google.com/webstore/search/%D0%90%D0%BB%D1%8C%D1%82%D0%B5%D1%80%D0%BA%D0%BE%D0%BC");
+    window.open(EXT_WEBSTORE_URL);
   }
 
 }
