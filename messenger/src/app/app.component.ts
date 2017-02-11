@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import '../style.css';
-import '../favicon.png';
 
 @Component({
   selector: 'my-app',

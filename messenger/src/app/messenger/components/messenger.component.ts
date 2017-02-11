@@ -19,6 +19,7 @@ import { LoginService } from '../../login';
 				<alt-contacts [contacts]="contacts"
 				              [selectedContact]="selectedContact"
 				              [onlinePeople]="onlinePeople"
+				              [printedPeople]="printedPeople"
 				              (message)="onMessage($event)"></alt-contacts>
 			</div>
 			<div style="width: 67%">
@@ -41,6 +42,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
 	private _selectedContact: Contact;
 	private _messages: Message[] = [];
 	private _onlinePeople: string[] = [];
+	private _printedPeople: string[] = [];
 	private _totalNewMessages: number = 0;
 
 	private socketSub$: Subject<MessageType>;
@@ -52,6 +54,7 @@ export class MessengerComponent implements OnInit, OnDestroy {
 	}
 	get messages()     { return this._messages; }
 	get onlinePeople() { return this._onlinePeople; }
+	get printedPeople() { return this._printedPeople; }
 	get totalNewMessages() { return this._totalNewMessages; }
 
 	constructor(private route: ActivatedRoute,
@@ -103,6 +106,10 @@ export class MessengerComponent implements OnInit, OnDestroy {
 					.update({new: message.data.new});
 				break;
 			}
+			case 'PRINTED_PEOPLE': {
+				this._printedPeople = message.data;
+				break;
+			}
 			case FormMessage.READ: {
 				let readMessage = message.data.clone().update({new: false});
 				this.updateMessage(readMessage)
@@ -123,7 +130,9 @@ export class MessengerComponent implements OnInit, OnDestroy {
 		dialogRef.afterClosed().subscribe(data => {
 			if (data) this.sendMessage(data);
 			this._selectedContact = null;
+			this.socketService.endPrinted();
 		});
+		this.socketService.startPrinted();
 	}
 
 	sendMessage(data: {contact: Contact, text: string}) {

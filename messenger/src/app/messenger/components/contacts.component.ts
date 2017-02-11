@@ -26,6 +26,7 @@ import { FactoryContact } from '../../shared/factory';
 		                   md-list-avatar>face</md-icon>
 		          <h4 md-line>{{contact?.personTo?.name}}</h4>
 		          <h4 md-line style="opacity: 0.54;">{{contact?.personTo?.client?.name}}</h4>
+		          <h6 *ngIf="isPrinted(contact)" class="printed">Печатает...</h6>
 		        </md-list-item>
 		        <md-divider></md-divider>
 		      </div>	
@@ -37,6 +38,7 @@ import { FactoryContact } from '../../shared/factory';
 		`.row:hover { background-color: #C5CAE9; cursor: pointer;  user-select: none; }`,
 		`.selected { background-color: #3f51b5; color: white; font-weight: bold; }`,
 		`.selected:hover { background-color: #3f51b5; }`,
+		`.printed { color: #c5cae9 }`,
 		`md-icon.online  { opacity: 0.54; }`,
 		`md-icon.offline { opacity: 0.12; }`
 	]
@@ -46,6 +48,7 @@ export class ContactsComponent implements OnInit {
 	@Input() contacts: Contact[];
 	@Input() selectedContact: Contact;
 	@Input() onlinePeople: string[];
+	@Input() printedPeople: string[];
 	@Output() message = new EventEmitter();
 
 	private contactFilter: ListFilter<Contact>;
@@ -84,6 +87,10 @@ export class ContactsComponent implements OnInit {
 
 	isOnline(contact: Contact): boolean {
 		return this.onlinePeople.indexOf(contact.personTo.id) > -1;
+	}
+
+	isPrinted(contact: Contact) {
+		return this.printedPeople.indexOf(contact.personTo.id) > -1;
 	}
 
 }

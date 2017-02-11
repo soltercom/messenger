@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { SOCKET_PATH, MessageType } from '../../shared';
 import { LoginService } from '../../login';
-import { Message, IMessageJSON } from '../model';
+import { Person, Message, IMessageJSON } from '../model';
 
 @Injectable()
 export class SocketService {
@@ -38,6 +38,12 @@ export class SocketService {
         data: data
       });
     });
+    this.socket.on('printed', (people: string[]) => {
+      sub$.next({
+        action: 'PRINTED_PEOPLE',
+        data: people
+      });
+    });
 
     return sub$;
   }
@@ -55,6 +61,14 @@ export class SocketService {
       contact: message.contact.toServer(),
       message: message.toServer()
     });
+  }
+
+  startPrinted() {
+    this.socket.emit('start printed', this.loginService.user.id);
+  }
+
+  endPrinted() {
+    this.socket.emit('end printed', this.loginService.user.id);
   }
 
 }
