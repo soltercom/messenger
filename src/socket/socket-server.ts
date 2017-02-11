@@ -13,6 +13,7 @@ export class SocketServer {
 	private io: SocketIO.Server;
 	private users: UserType[] = [];
 	private ext: UserType[] = [];
+	private printedUsers: UserType[] = [];
 
 	public static bootstrap(server: http.Server): SocketServer {
 		return new SocketServer(server);
@@ -54,6 +55,16 @@ export class SocketServer {
     if (result.length > 0) {
       result[0].socket.emit('read message', data.message);
     }
+  }
+
+  private onStartPrinted(id: string, socket: SocketIO.Socket) {
+	  this.printedUsers = [...this.printedUsers, {user: id, socket: socket}];
+	  socket.broadcast.emit('printed', this.printedUsers.map(item => item.user));
+  }
+
+  private onEndPrinted(id: string, socket: SocketIO.Socket) {
+		this.printedUsers = this.printedUsers.filter((item: any) => item.user !== id);
+	  socket.broadcast.emit('printed', this.printedUsers.map(item => item.user));
   }
 
   private onExtOnline(data: any, socket: SocketIO.Socket) {
@@ -108,6 +119,10 @@ export class SocketServer {
         (data: any) => this.onNewMessage(data, socket));
 			socket.on('read message',
         (data: any) => this.onReadMessage(data, socket));
+			socket.on('start printed',
+				(data: string) => this.onStartPrinted(data, socket));
+			socket.on('end printed',
+				(data: string) => this.onEndPrinted(data, socket));
 			socket.on('ext online',
         (data: any) => this.onExtOnline(data, socket));
 			socket.on('ext has new messages',
