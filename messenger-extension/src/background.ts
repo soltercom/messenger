@@ -8,7 +8,7 @@ let socket = io(SOCKET_PATH);
 
 let i18Msg = chrome.i18n.getMessage;
 let alarmId: string = "repeatNotifications";
-let alarmPeriod: number = 0.25;
+let alarmPeriod: number = 5.00;
 
 function createRepeatNotificationAlarm() {
   chrome.alarms.clear(alarmId, (wasCleared: boolean) => {
