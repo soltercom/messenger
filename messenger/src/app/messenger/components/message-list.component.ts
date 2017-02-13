@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Message, Person } from '../../shared/model';
 import { MomentService } from '../../shared/services';
 import { FactoryMessage } from '../../shared/factory';
-import { FormMessage, MessageType, ListFilter } from '../../shared';
+import { FormMessage, MessageType, ListFilter, FLY_IN_OUT_ANIMATION } from '../../shared';
 
 @Component({
 	selector: 'alt-message-list',
@@ -32,6 +32,7 @@ import { FormMessage, MessageType, ListFilter } from '../../shared';
 						           [income]="message.isIncome(user)"
 						           [date]="momentService.getDate(message.date)"
 						           [width]="messageWidth"
+						           [@flyInOut]="'in'"
 						           (formMessage)="onMessage($event)"></alt-message>
 					<button *ngIf="message.isIncome(user) && !message.new" md-mini-fab 
 		        class="reply" color="primary"
@@ -60,7 +61,8 @@ import { FormMessage, MessageType, ListFilter } from '../../shared';
 			margin-bottom: 20px;
 			margin-left: -15px;
 		}`
-	]
+	],
+	animations: FLY_IN_OUT_ANIMATION
 })
 export class MessageListComponent implements OnInit {
 

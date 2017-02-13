@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FLY_IN_OUT_ANIMATION } from '../../shared';
 
 import { Contact } from '../../shared/model';
 import { FormMessage, ListFilter } from '../../shared';
@@ -20,6 +21,7 @@ import { FactoryContact } from '../../shared/factory';
 				         style="overflow-x: hidden; overflow-y: scroll;">
 					<div *ngFor="let contact of contactFilter.list">
 						<md-list-item class="row"
+												[@flyInOut]="'in'"
 					              (click)="select(contact)"
 					              [ngClass]="{selected: contact.isEqual(selectedContact)}">
 		          <md-icon [ngClass]="{ online: isOnline(contact), offline: !isOnline(contact) }"
@@ -41,7 +43,8 @@ import { FactoryContact } from '../../shared/factory';
 		`.printed { color: #c5cae9 }`,
 		`md-icon.online  { opacity: 0.54; }`,
 		`md-icon.offline { opacity: 0.12; }`
-	]
+	],
+	animations: FLY_IN_OUT_ANIMATION
 })
 export class ContactsComponent implements OnInit {
 

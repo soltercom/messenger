@@ -1,8 +1,8 @@
-//const SOCKET_PATH = 'http://localhost:3000';
-//const PATH        = 'http://localhost:3000';
+const SOCKET_PATH = 'http://localhost:3000';
+const PATH        = 'http://localhost:3000';
 
-const SOCKET_PATH = 'http://80.73.81.154:3000';
-const PATH = 'http://80.73.81.154:3000';
+//const SOCKET_PATH = 'http://80.73.81.154:3000';
+//const PATH = 'http://80.73.81.154:3000';
 
 let socket = io(SOCKET_PATH);
 

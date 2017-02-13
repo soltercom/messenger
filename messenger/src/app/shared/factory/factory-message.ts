@@ -57,7 +57,6 @@ export class FactoryMessage extends Factory<Message>{
 	}
 
 	static filterFn(entity: Message, filter: string): boolean {
-	  console.log(entity);
 		return entity.contact.personTo.desc.toUpperCase().includes(filter.toUpperCase())
 			|| entity.contact.personFrom.desc.toUpperCase().includes(filter.toUpperCase())
 			|| entity.text.toUpperCase().includes(filter.toUpperCase())

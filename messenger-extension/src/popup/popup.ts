@@ -1,5 +1,5 @@
-//const PATH2 = 'http://localhost:3000';
-const PATH2 = 'http://80.73.81.154:3000';
+const PATH2 = 'http://localhost:3000';
+//const PATH2 = 'http://80.73.81.154:3000';
 
 function openExt() {
 	chrome.tabs.query({ url: `${PATH2}/*` }, (tabs: chrome.tabs.Tab[]) => {
