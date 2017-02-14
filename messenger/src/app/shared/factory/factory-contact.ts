@@ -71,11 +71,13 @@ export class FactoryContact extends Factory<Contact>{
 			return { result: false, message: 'Отправитель и получатель должны различаться.'};
 		}
 
-		if ((<Contact[]>this.repository.toArray(this.filterFn)
-			.filter((entity: Contact) =>
-			     entity.personFrom.isEqual(contact.personFrom)
-			  && entity.personTo.isEqual(contact.personTo))).length > 0) {
-			return { result: false, message: 'Подобный контакт уже есть.'}
+		if (Entity.isNewId(contact.id)) {
+			if ((<Contact[]>this.repository.toArray(this.filterFn)
+					.filter((entity: Contact) =>
+					entity.personFrom.isEqual(contact.personFrom)
+					&& entity.personTo.isEqual(contact.personTo))).length > 0) {
+				return {result: false, message: 'Подобный контакт уже есть.'}
+			}
 		}
 
 		return { result: true };

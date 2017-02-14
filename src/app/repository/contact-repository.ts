@@ -9,7 +9,7 @@ export class ContactRepository extends RepositoryBase<IContactModel> {
 	}
 
 	getPersonContacts(id: string) {
-		let condition = { $or: [{ 'personFrom': id }, { 'personTo': id }]};
+		let condition = { $and: [ {deleted: false}, { $or: [{ 'personFrom': id }, { 'personTo': id }]}]};
 		return this._model.find(condition)
 			.populate({
 				path: 'personFrom personTo',
