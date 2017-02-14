@@ -7,12 +7,12 @@ export class PersonRepository extends RepositoryBase<IPersonModel> {
     super(DataAccess.personModel);
   }
 
-  getAllPINs(callback: (error: any, result: any) => void) {
-    this._model.find({}, 'pin', callback);
+  getAllPINs() {
+    return this._model.find({}, 'pin');
   }
 
-  login(pin: string, callback: (error: any, result: any) => void) {
-    this._model.findOne({pin: pin}, callback).populate('client');
+  login(pin: string) {
+    return this._model.findOne({pin: pin}).populate('client');
   }
 
 }

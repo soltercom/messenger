@@ -12,16 +12,10 @@ export class MessageController extends ControllerBase<IMessageModel> {
 	}
 
 	getPersonMessages(req: express.Request, res: express.Response): void {
-		let {id} = req.params;
-		try {
-			(this.itemBusiness as MessageBusiness).getPersonMessages(id, (error, result) => {
-				ErrorHandler.handleError(res, error, ErrorTypes.FIND);
-
-				res.status(200).send(result);
-			});
-		} catch (e)  {
-			ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-		}
+		(this.itemBusiness as MessageBusiness)
+			.getPersonMessages(req.params.id)
+			.then((result: any) => res.status(200).send(result))
+			.catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.FIND));
 	}
 
 }

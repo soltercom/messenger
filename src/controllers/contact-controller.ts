@@ -12,16 +12,10 @@ export class ContactController extends ControllerBase<IContactModel> {
 	}
 
 	getPersonContacts(req: express.Request, res: express.Response): void {
-		let {id} = req.params;
-		try {
-			(this.itemBusiness as ContactBusiness).getPersonContacts(id, (error, result) => {
-				ErrorHandler.handleError(res, error, ErrorTypes.FIND);
-
-				res.status(200).send(result);
-			});
-		} catch (e)  {
-			ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-		}
+		(this.itemBusiness as ContactBusiness)
+			.getPersonContacts(req.params.id)
+			.then((result: any) => res.status(200).send(result))
+			.catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.FIND));
 	}
 
 }

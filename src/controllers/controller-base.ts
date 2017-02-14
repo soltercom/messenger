@@ -8,71 +8,38 @@ export abstract class ControllerBase<T extends mongoose.Document>  {
 
   constructor(protected itemBusiness: BusinessBase<T>) {}
 
+  private convertItem(req: express.Request): T {
+    return Object.assign({}, <T>req.body, {_id: req.body.id});
+  }
+
   create(req: express.Request, res: express.Response): void {
-    try {
-      let item: T = <T>req.body;
-      item._id = req.body.id;
-      this.itemBusiness.create(item, (error, result) => {
-        ErrorHandler.handleError(res, error, ErrorTypes.CREATE);
-        res.status(200).send(result);
-      });
-    }
-    catch (e)  {
-      ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-    }
+    this.itemBusiness.create(this.convertItem(req))
+      .then((result: any) => res.status(200).send(result))
+      .catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.CREATE));
   }
 
   update(req: express.Request, res: express.Response): void {
-    try {
-      let item: T = <T>req.body;
-      item._id = req.body.id;
-      let _id: string = req.params._id;
-      this.itemBusiness.update(_id, item, (error, result) => {
-        ErrorHandler.handleError(res, error, ErrorTypes.UPDATE);
-        res.status(200).send(result);
-      });
-    }
-    catch (e)  {
-      ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-    }
+    this.itemBusiness.update(req.params._id, this.convertItem(req))
+      .then((result: any) => res.status(200).send(result))
+      .catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.UPDATE));
   }
 
   delete(req: express.Request, res: express.Response): void {
-    try {
-      let _id: string = req.params._id;
-      this.itemBusiness.delete(_id, (error, result) => {
-        ErrorHandler.handleError(res, error, ErrorTypes.DELETE);
-        res.status(200).send();
-      });
-    }
-    catch (e)  {
-      ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-    }
+    this.itemBusiness.delete(req.params._id)
+      .then((result: any) => res.status(200).send())
+      .catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.DELETE));
   }
 
   retrieve(req: express.Request, res: express.Response): void {
-    try {
-      this.itemBusiness.retrieve((error, result) => {
-        ErrorHandler.handleError(res, error, ErrorTypes.RETRIEVE);
-        res.status(200).send(result);
-      });
-    }
-    catch (e)  {
-      ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-    }
+    this.itemBusiness.retrieve()
+      .then((result: any) => res.status(200).send(result))
+      .catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.RETRIEVE));
   }
 
   findById(req: express.Request, res: express.Response): void {
-    try {
-      let _id: string = req.params._id;
-      this.itemBusiness.findById(_id, (error, result) => {
-        ErrorHandler.handleError(res, error, ErrorTypes.FIND);
-        res.status(200).send(result);
-      });
-    }
-    catch (e)  {
-      ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-    }
+    this.itemBusiness.findById(req.params._id)
+      .then((result: any) => res.status(200).send(result))
+	    .catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.FIND));
   }
 
 }

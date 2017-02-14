@@ -13,7 +13,7 @@ export class ErrorHandler {
 
   static handleError(res: express.Response, error: any, errorText?: string) {
     if (error) {
-      console.log(error);
+      console.error(error);
       res.status(404).send({"error": errorText || ""});
     }
   }

@@ -8,8 +8,8 @@ export class ContactBusiness extends BusinessBase<IContactModel> {
 		super(new ContactRepository());
 	}
 
-	getPersonContacts(id: string, callback: (error: any, result: string) => void) {
-		(<ContactRepository>this.repository).getPersonContacts(id, callback);
+	getPersonContacts(id: string) {
+		return (<ContactRepository>this.repository).getPersonContacts(id);
 	}
 
 }

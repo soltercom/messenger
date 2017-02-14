@@ -1,6 +1,6 @@
-import { IContactModel } from '../model';
+import { IContactModel }  from '../model';
 import { RepositoryBase } from './repository-base';
-import { DataAccess } from '../data-access';
+import { DataAccess }     from '../data-access';
 
 export class ContactRepository extends RepositoryBase<IContactModel> {
 
@@ -8,8 +8,9 @@ export class ContactRepository extends RepositoryBase<IContactModel> {
 		super(DataAccess.contactModel);
 	}
 
-	getPersonContacts(id: string, callback: (error: any, result: any) => void) {
-		this._model.find({ $or: [{ 'personFrom': id }, { 'personTo': id }]}, callback)
+	getPersonContacts(id: string) {
+		let condition = { $or: [{ 'personFrom': id }, { 'personTo': id }]};
+		return this._model.find(condition)
 			.populate({
 				path: 'personFrom personTo',
 				populate: {

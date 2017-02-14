@@ -8,24 +8,24 @@ export class RepositoryBase<T extends mongoose.Document> {
     this._model = schemaModel;
   }
 
-  create(item: T, callback: (error: any, result: any) => void) {
-    this._model.create(item, callback);
+  create(item: T) {
+    return this._model.create(item);
   }
 
-  retrieve(callback: (error: any, result: any) => void) {
-    this._model.find({}, callback)
+  retrieve() {
+    return this._model.find({})
   }
 
-  update(id: string, item: T, callback: (error: any, result: any) => void) {
-    this._model.findOneAndUpdate({_id: id}, item, callback);
+  update(id: string, item: T) {
+    return this._model.findOneAndUpdate({_id: id}, item);
   }
 
-  delete(id: string, callback:(error: any, result: any) => void) {
-    this._model.remove({_id: id}, (err) => callback(err, null));
+  delete(id: string) {
+    return this._model.remove({_id: id});
   }
 
-  findById(id: string, callback: (error: any, result: T) => void) {
-    this._model.findById(id, callback);
+  findById(id: string) {
+    return this._model.findById(id);
   }
 
 }

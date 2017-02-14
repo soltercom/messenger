@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 
+
 export class ClientSchema {
 
   static get schema() {

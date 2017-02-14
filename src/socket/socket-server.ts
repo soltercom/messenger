@@ -26,6 +26,10 @@ export class SocketServer {
 		this.listen();
 	}
 
+	private errorHandler(err: any) {
+		console.error(err);
+	}
+
 	private onOnline(user: any, socket: SocketIO.Socket) {
     this.users = [...this.users, {user: user, socket: socket}];
     this.io.emit('online', this.users.map(item => item.user.id));
@@ -68,45 +72,49 @@ export class SocketServer {
   }
 
   private onExtOnline(data: any, socket: SocketIO.Socket) {
+		if (!data.pin) return;
     console.log('Ext online: ', data);
-    this.personRepository.login(data.pin, (error, result) => {
-      if (error) {
-        console.log('Error with Altercom Messenger Extension connection. pin: ', data.pin);
-        return;
-      }
-      this.ext = this.ext.filter(item => item.user.pin !== result.pin);
-      this.ext = [...this.ext, {user: result, socket: socket}];
-      this.messageRepository.getNewIncomePersonMessages(result.id, (error, result) => {
-        if (error) {
-          console.log('Error in new income messages query.', error);
-          return;
-        }
-        if (result.length === 0)
-          return;
-        socket.emit('ext message', result.map((msg: any) => {
-          return {
-            addressee: msg.contact.personFrom.desc,
-            text: msg.text
-          }
-        }));
-      });
-    });
+
+    this.personRepository.login(data.pin)
+	    .then((result: any) => {
+		    if (!result) return;
+
+		    this.ext = this.ext.filter(item => item.user.pin !== result.pin);
+		    this.ext = [...this.ext, {user: result, socket: socket}];
+
+		    this.messageRepository.getNewIncomePersonMessages(result.id)
+			    .then((result: any) => {
+				    if (result.length === 0) return;
+
+				    socket.emit('ext message', result.map((msg: any) => {
+					    return {
+						    addressee: msg.contact.personFrom.desc,
+						    text: msg.text
+					    }
+				    }));
+			    })
+			    .catch((error: any) => {
+		    	  this.errorHandler(`Error with login: ${data.pin}`);
+			    });
+	    })
+	    .catch((error: any) => {
+    	  this.errorHandler(`Error in new income messages query. ${error}`);
+	    });
   }
 
   private onExtHasNewMessages(pin: string, socket: SocketIO.Socket) {
 	  let usrs = this.ext.filter((item: any) => item.user.pin === pin)
                        .map((item: any) => item.user);
     if (usrs.length > 0) {
-      this.messageRepository.getNewIncomePersonMessages(usrs[0].id, (error, result) => {
-        if (error) {
-          console.log('Error in new income messages query.', error);
-          return;
-        }
-        if (result.length > 0)
-          socket.emit('ext has new messages');
-      });
-    };
-
+	    this.messageRepository.getNewIncomePersonMessages(usrs[0].id)
+		    .then((result: any) => {
+			    if (result.length > 0)
+				    socket.emit('ext has new messages');
+		    })
+		    .catch((error: any) => {
+	    	  this.errorHandler(`Error in new income messages query. ${error}`);
+		    });
+    }
   }
 
 	listen() {

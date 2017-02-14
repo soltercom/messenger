@@ -12,29 +12,17 @@ export class PersonController extends ControllerBase<IPersonModel> {
   }
 
   getNewPIN(req: express.Request, res: express.Response): void {
-    try {
-      (this.itemBusiness as PersonBusiness).getNewPIN((error, result) => {
-        ErrorHandler.handleError(res, error, ErrorTypes.FIND);
-        res.status(200).send(result);
-      });
-    }
-    catch (e)  {
-      ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-    }
+    (this.itemBusiness as PersonBusiness)
+      .getNewPIN()
+      .then((result: any) => res.status(200).send(result))
+      .catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.FIND));
   }
 
   login(req: express.Request, res: express.Response): void {
-    try {
-      let {pin} = req.body;
-      (this.itemBusiness as PersonBusiness).login(pin, (error, result) => {
-        ErrorHandler.handleError(res, error, ErrorTypes.FIND);
-
-        res.status(200).send(result);
-      });
-    }
-    catch (e)  {
-      ErrorHandler.handleError(res, e, ErrorTypes.REQUEST);
-    }
+    (this.itemBusiness as PersonBusiness)
+      .login(req.body.pin)
+      .then((result: any) => res.status(200).send(result))
+	    .catch((error: any) => ErrorHandler.handleError(res, error, ErrorTypes.FIND));
   }
 
 }

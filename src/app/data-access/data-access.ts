@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+(<any>mongoose).Promise = require("bluebird");
 
 import { Constants } from '../../config';
 import { IClientModel, IPersonModel, IContactModel, IMessageModel } from '../model';

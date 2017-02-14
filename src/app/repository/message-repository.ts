@@ -13,15 +13,12 @@ export class MessageRepository extends RepositoryBase<IMessageModel> {
 		this.contactModel = DataAccess.contactModel;
 	}
 
-	getPersonMessages(id: string, callback: (error: any, result: any) => void) {
+	getPersonMessages(id: string) {
+		let condition = {$or: [{ 'personFrom': id }, { 'personTo': id }]};
 
-		this.contactModel.find({ $or: [
-			{ 'personFrom': id },
-			{ 'personTo': id }
-		]}, 'id', (err, res) => {
-			if (err) callback(err, res);
-
-			this._model.find({'contact': { $in: res }}, callback)
+		return this.contactModel.find(condition, 'id')
+			.then((res: any) => {
+				return this._model.find({'contact': { $in: res }})
 				.populate({
 					path: 'contact',
 					populate: {
@@ -34,20 +31,20 @@ export class MessageRepository extends RepositoryBase<IMessageModel> {
 		});
 	}
 
-  getNewIncomePersonMessages(id: string, callback: (error: any, result: any) => void) {
-    this.contactModel.find({ 'personTo': id }, 'id', (err, res) => {
-      if (err) callback(err, res);
-
-      this._model.find({'contact': { $in: res }, 'new': true}, callback)
-        .populate({
-          path: 'contact',
-          populate: {
-            path: 'personFrom personTo',
-            populate: {
-              path: 'client'
-            }
-          }
-        });
+  getNewIncomePersonMessages(id: string) {
+    return this.contactModel.find({ 'personTo': id }, 'id')
+	    .then((res: any) => {
+	      return this._model.find({'contact': { $in: res }, 'new': true})
+		      .populate({
+	          path: 'contact',
+	          populate: {
+	            path: 'personFrom personTo',
+	            populate: {
+	              path: 'client'
+	            }
+	          }
+	        });
     });
   }
+
 }

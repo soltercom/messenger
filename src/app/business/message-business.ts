@@ -8,8 +8,8 @@ export class MessageBusiness extends BusinessBase<IMessageModel> {
 		super(new MessageRepository());
 	}
 
-	getPersonMessages(id: string, callback: (error: any, result: string) => void) {
-		(<MessageRepository>this.repository).getPersonMessages(id, callback);
+	getPersonMessages(id: string) {
+		return (<MessageRepository>this.repository).getPersonMessages(id);
 	}
 
 }

@@ -7,29 +7,26 @@ export class BusinessBase<T extends mongoose.Document> {
   constructor (protected repository: RepositoryBase<T>) {
   }
 
-  create(item: T, callback: (error: any, result: any) => void) {
-    this.repository.create(item, callback);
+  create(item: T) {
+    return this.repository.create(item);
   }
 
-  retrieve(callback: (error: any, result: any) => void) {
-    this.repository.retrieve(callback);
+  retrieve() {
+    return this.repository.retrieve();
   }
 
-  update(id: string, item: T, callback: (error: any, result: any) => void) {
-    this.repository.findById(id, (err, res) => {
-      if(err)
-        callback(err, res);
-      else
-        this.repository.update(res._id, item, callback);
+  update(id: string, item: T) {
+    return this.findById(id).then((res: any) => {
+      return this.repository.update(res._id, item);
     });
   }
 
-  delete(id: string, callback:(error: any, result: any) => void) {
-    this.repository.delete(id , callback);
+  delete(id: string) {
+    return this.repository.delete(id);
   }
 
-  findById(id: string, callback: (error: any, result: T) => void) {
-    this.repository.findById(id, callback);
+  findById(id: string) {
+    return this.repository.findById(id);
   }
 
 }
