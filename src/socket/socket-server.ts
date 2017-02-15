@@ -26,7 +26,7 @@ export class SocketServer {
 		this.listen();
 	}
 
-	private errorHandler(err: any) {
+	private static errorHandler(err: any) {
 		console.error(err);
 	}
 
@@ -94,11 +94,11 @@ export class SocketServer {
 				    }));
 			    })
 			    .catch((error: any) => {
-		    	  this.errorHandler(`Error with login: ${data.pin}`);
+				    SocketServer.errorHandler(`Error with login: ${data.pin}`);
 			    });
 	    })
 	    .catch((error: any) => {
-    	  this.errorHandler(`Error in new income messages query. ${error}`);
+		    SocketServer.errorHandler(`Error in new income messages query. ${error}`);
 	    });
   }
 
@@ -112,7 +112,7 @@ export class SocketServer {
 				    socket.emit('ext has new messages');
 		    })
 		    .catch((error: any) => {
-	    	  this.errorHandler(`Error in new income messages query. ${error}`);
+			    SocketServer.errorHandler(`Error in new income messages query. ${error}`);
 		    });
     }
   }

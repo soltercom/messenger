@@ -3,3 +3,4 @@ export { IClient,  IClientJSON,  Client } from './client';
 export { IPerson,  IPersonJSON,  Person } from './person';
 export { IContact, IContactJSON, Contact } from './contact';
 export { IMessage, IMessageJSON, Message } from './message';
+export { IOrder,   IOrderJSON,   Order } from './order';

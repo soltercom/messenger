@@ -2,8 +2,8 @@ import * as mongoose from 'mongoose';
 (<any>mongoose).Promise = require("bluebird");
 
 import { Constants } from '../../config';
-import { IClientModel, IPersonModel, IContactModel, IMessageModel } from '../model';
-import { ClientSchema, PersonSchema, ContactSchema, MessageSchema } from './';
+import { IClientModel, IPersonModel, IContactModel, IMessageModel, IOrderModel } from '../model';
+import { ClientSchema, PersonSchema, ContactSchema, MessageSchema, OrderSchema } from './';
 
 export class DataAccess {
   static mongooseInstance: any;
@@ -13,6 +13,7 @@ export class DataAccess {
   static personModel:     mongoose.Model<IPersonModel>;
   static contactModel:    mongoose.Model<IContactModel>;
   static messageModel:    mongoose.Model<IMessageModel>;
+  static orderModel:      mongoose.Model<IOrderModel>;
 
   constructor () {
     DataAccess.connect();
@@ -33,6 +34,7 @@ export class DataAccess {
     DataAccess.personModel  = mongoose.model<IPersonModel>("Person",   PersonSchema.schema);
     DataAccess.contactModel = mongoose.model<IContactModel>("Contact", ContactSchema.schema);
     DataAccess.messageModel = mongoose.model<IMessageModel>("Message", MessageSchema.schema);
+    DataAccess.orderModel   = mongoose.model<IOrderModel>("Order",     OrderSchema.schema);
 
     return DataAccess.mongooseInstance;
   }

@@ -27,7 +27,8 @@ export class ClientDetailComponent extends EntityDetail<Client, IClientJSON> {
 	metadata: DetailFieldMetadata[] = [
 		new DetailFieldMetadata('id'     , 'Код'         , 'text'    , '', true),
     new DetailFieldMetadata('deleted', 'Удален'      , 'checkbox', '', false),
-		new DetailFieldMetadata('name'   , 'Наименование', 'text'    , '', false)
+		new DetailFieldMetadata('name'   , 'Наименование', 'text'    , '', false),
+		new DetailFieldMetadata('inn'    , 'ИНН'         , 'text'    , '', false)
 	];
 
   constructor(protected route: ActivatedRoute,

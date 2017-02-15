@@ -8,6 +8,7 @@ import { AdminModule } from './admin';
 import { LoginModule } from './login';
 import { MessengerModule } from "./messenger";
 import { NavbarModule } from './navbar';
+import { OrdersModule } from './orders';
 import { InfoService, InfoComponent } from './shared';
 
 @NgModule({
@@ -18,7 +19,8 @@ import { InfoService, InfoComponent } from './shared';
 		AppRoutingModule,
     LoginModule,
     MessengerModule,
-    NavbarModule
+    NavbarModule,
+		OrdersModule
 	],
 	declarations: [
 		AppComponent

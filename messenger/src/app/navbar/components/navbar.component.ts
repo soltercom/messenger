@@ -18,6 +18,9 @@ import { EXT_WEBSTORE_URL } from '../../shared';
       <button md-icon-button (click)="openWebstore()"
         mdTooltip="Расширение для Google Chrome" [mdTooltipPosition]="'below'">
         <md-icon>spellcheck</md-icon></button>  
+      <button md-icon-button (click)="openOrders()"
+        mdTooltip="Заявки" [mdTooltipPosition]="'below'">
+        <md-icon>assignment</md-icon></button>  
       <span style="flex: 1 1 auto;"></span>
       <span *ngIf="isLoggedIn">{{user}} </span>
       <button *ngIf="isLoggedIn" md-icon-button (click)="logout()"
@@ -63,6 +66,10 @@ export class NavbarComponent {
 
   openWebstore() {
     window.open(EXT_WEBSTORE_URL);
+  }
+
+  openOrders() {
+    this.router.navigate(['/orders']);
   }
 
 }

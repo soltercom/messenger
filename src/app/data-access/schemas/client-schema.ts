@@ -26,6 +26,11 @@ export class ClientSchema {
         type: mongoose.SchemaTypes.String,
         required: true,
         maxlength: 256
+      },
+      inn: {
+        type: mongoose.SchemaTypes.String,
+        required: false,
+        maxlength: 12
       }
     }, { toJSON: { virtuals: true } });
 
